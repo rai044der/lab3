@@ -53,6 +53,18 @@ namespace lab3
         {
             Graphics g = canvas.CreateGraphics();
             g.Clear(Color.White);
+            Brush road = new SolidBrush(Color.Gray);
+            g.FillRectangle(road, 0, 30, 1000, 60);
+            g.FillRectangle(road, 60, 90, 60, 640);
+            g.FillRectangle(road, 830, 90, 60, 640);
+
+            g.FillRectangle(road, 120, 150, 730, 60);
+            g.FillRectangle(road, 120, 280, 730, 60);
+            g.FillRectangle(road, 120, 410, 730, 60);
+            g.FillRectangle(road, 120, 540, 730, 60);
+            g.FillRectangle(road, 120, 670, 730, 60);
+
+
             foreach (Car car in cars)
             {
                 Brush c = new SolidBrush(Color.FromArgb(car.GetColor()[0], car.GetColor()[1], car.GetColor()[2]));
@@ -66,5 +78,6 @@ namespace lab3
         {
             paint();
         }
+
     }
 }

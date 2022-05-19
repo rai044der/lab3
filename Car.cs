@@ -24,7 +24,7 @@ namespace lab3
             color[1] = rnd.Next(255);
             color[2] = rnd.Next(255);
             position[0] = 0; //TODO FIX POSITION TO CORRECT
-            position[1] = 200;
+            position[1] = 50;
             targetPosition[0] = targetX;
             targetPosition[1] = targetY;
         }
