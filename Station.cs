@@ -69,6 +69,14 @@ namespace lab3
             addFuel();
         }
 
+        public int getId() { 
+            return id;
+        }
+
+        public int numberOfCars() {
+            return cars.Count;
+        }
+
 
     }
 
