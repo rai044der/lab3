@@ -7,10 +7,7 @@ using System.Threading.Tasks;
 namespace lab3
 {
 
-    public interface Car{
-        int getFuelLevel();
-        void addFuel(int number);
-}
+
     public class Station
     {
         Queue<Car> cars;
@@ -29,51 +26,51 @@ namespace lab3
         }
 
         // проверка занята ли колонка
-        public bool isBusy() {
+        public bool IsBusy() {
             return cars.Count == queueSize;
         }
 
         // сбор сколько литров разлила колонка
-        public int getStatistic()
+        public int GetStatistic()
         {
             return score;
         }
         // добавляем машину в очередь
-        public void addCar(Car newCar) { 
-            if (!this.isBusy()) cars.Enqueue(newCar);
+        public void AddCar(Car newCar) { 
+            if (!this.IsBusy()) cars.Enqueue(newCar);
         }
 
         // заливаем топливо в машину
-        public void addFuel() {
+        public void AddFuel() {
             Car car = cars.First();
-            int addedFuel = increment <= 100 - car.getFuelLevel() ? increment: 100 - car.getFuelLevel();
-            car.addFuel(addedFuel);
+            int addedFuel = increment <= 100 - car.GetFuelLevel() ? increment: 100 - car.GetFuelLevel();
+            car.AddFuel(addedFuel);
             score += addedFuel;
 
-            if (car.getFuelLevel() == 100) { 
+            if (car.GetFuelLevel() == 100) { 
                 //
                 cars.Dequeue();
             }
         }
 
         // сколько литров надо залить машинам в очереди
-        public int getInfo() {
+        public int GetInfo() {
             int result = 0;
             foreach (Car car in cars) {
-                result += 100 - car.getFuelLevel();
+                result += 100 - car.GetFuelLevel();
             }
             return result;
         }
 
-        public void update() {
-            addFuel();
+        public void Update() {
+            AddFuel();
         }
 
-        public int getId() { 
+        public int GetId() { 
             return id;
         }
 
-        public int numberOfCars() {
+        public int NumberOfCars() {
             return cars.Count;
         }
 
@@ -90,8 +87,8 @@ namespace lab3
             }
         }
         public Station GetStation() {
-            List<Station> other =  stations.Where((element) => !element.isBusy()).ToList<Station>();
-            other.OrderBy(element => element.getInfo());
+            List<Station> other =  stations.Where((element) => !element.IsBusy()).ToList<Station>();
+            other.OrderBy(element => element.GetInfo());
             if (other.Count() > 0)
             {
                 return other[0];
@@ -101,8 +98,8 @@ namespace lab3
             }
         }
 
-        public int getGasSold() {
-            return stations.Sum(elem => elem.getStatistic());
+        public int GetGasSold() {
+            return stations.Sum(elem => elem.GetStatistic());
         }
 
         
