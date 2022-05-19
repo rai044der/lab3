@@ -47,6 +47,7 @@ namespace lab3
         {
             Car car = new Car(200, 300, rnd);
             cars.Add(car);
+            gener.Interval = rnd.Next(1000, 2000);
         }
 
         private void paint()
@@ -64,6 +65,12 @@ namespace lab3
             g.FillRectangle(road, 120, 540, 730, 60);
             g.FillRectangle(road, 120, 670, 730, 60);
 
+            Brush station = new SolidBrush(Color.Black);
+            g.FillRectangle(station, 700, 100, 50, 50);
+            g.FillRectangle(station, 700, 230, 50, 50);
+            g.FillRectangle(station, 700, 360, 50, 50);
+            g.FillRectangle(station, 700, 490, 50, 50);
+            g.FillRectangle(station, 700, 620, 50, 50);
 
             foreach (Car car in cars)
             {
