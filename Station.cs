@@ -10,7 +10,7 @@ namespace lab3
 
     public class Station
     {
-        Queue<Car> cars;
+        Queue<Car> cars = new Queue<Car>();
         int queueSize;
         int position;
         int id;
