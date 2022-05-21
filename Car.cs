@@ -11,7 +11,7 @@ namespace lab3
     {
         private int fuelLevel;
         private int[] color = new int[3];
-        private int[] position = new int[2];
+        public int[] position = new int[2];
         private int[] targetPosition = new int[2];
         private int gasStaton;
         private int state;
