@@ -7,10 +7,7 @@ using System.Threading.Tasks;
 namespace lab3
 {
 
-    public interface Car{
-        int getFuelLevel();
-        void addFuel(int number);
-}
+
     public class Station
     {
         Queue<Car> cars;
@@ -39,18 +36,18 @@ namespace lab3
             return score;
         }
         // добавляем машину в очередь
-        public void addCar(Car newCar) { 
+        public void AddCar(Car newCar) { 
             if (!this.isBusy()) cars.Enqueue(newCar);
         }
 
         // заливаем топливо в машину
         public void addFuel() {
             Car car = cars.First();
-            int addedFuel = increment <= 100 - car.getFuelLevel() ? increment: 100 - car.getFuelLevel();
-            car.addFuel(addedFuel);
+            int addedFuel = increment <= 100 - car.GetFuelLevel() ? increment: 100 - car.GetFuelLevel();
+            car.AddFuel(addedFuel);
             score += addedFuel;
 
-            if (car.getFuelLevel() == 100) { 
+            if (car.GetFuelLevel() == 100) { 
                 //
                 cars.Dequeue();
             }
@@ -60,7 +57,7 @@ namespace lab3
         public int getInfo() {
             int result = 0;
             foreach (Car car in cars) {
-                result += 100 - car.getFuelLevel();
+                result += 100 - car.GetFuelLevel();
             }
             return result;
         }

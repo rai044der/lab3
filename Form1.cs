@@ -12,10 +12,15 @@ namespace lab3
 {
     public partial class Form1 : Form
     {
-        static System.Windows.Forms.Timer ticker = new System.Windows.Forms.Timer();
-        static System.Windows.Forms.Timer gener = new System.Windows.Forms.Timer();
-        List<Car> cars = new List<Car>();
-        Random rnd;
+        //static System.Windows.Forms.Timer ticker = new System.Windows.Forms.Timer();
+        //static System.Windows.Forms.Timer gener = new System.Windows.Forms.Timer();
+        
+        // создаём словарь, где Сar - логически объект,
+        // а Label - его отображение на экране
+
+        //Dictionary<Car, Label> cars = new Dictionary<Car, Label>();
+
+        //Random rnd;
         public Form1()
         {
             InitializeComponent();
@@ -23,17 +28,58 @@ namespace lab3
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            rnd = new Random();
-            Car car = new Car(200, 300, rnd);
-            cars.Add(car);
+            //rnd = new Random();
+            /*
+            // создаём новую модель машины
+            Label label = new Label();
 
-            ticker.Tick += new EventHandler(TickerEvent);
-            ticker.Interval = 5;
-            ticker.Start();
+            // уровень топлива конкретной машинки
+            label.Text = "100";
+            // размеры машинки
+            label.Size = new System.Drawing.Size(40, 20);
+            // позиция, где машинка появляется
+            label.Location = new System.Drawing.Point(200, 300);
+            // каждая машинка имеет собственное имя гененрируемое
+            // на основе длины словаря
+            label.Name = String.Concat("car", cars.Keys.Count.ToString());
+            // Car car = new Car(200, 300, rnd);
+            // cars.Add(car);
+            this.Controls.Add(label);
+            */
 
-            gener.Tick += new EventHandler(GenEvent);
-            gener.Interval = 1000;
-            gener.Start();
+            //ticker.Tick += new EventHandler(TickerEvent);
+            //ticker.Interval = 5;
+            //ticker.Start();
+
+            //gener.Tick += new EventHandler(GenEvent);
+            //gener.Interval = 1000;
+            //gener.Start();
+
+
+            // Creating and setting the label
+            int n = 4;
+            TextBox[] textBoxes = new TextBox[n];
+            Label[] labels = new Label[n];
+
+            for (int i = 0; i < n; i++)
+            {
+                textBoxes[i] = new TextBox();
+                // Here you can modify the value of the textbox which is at textBoxes[i]
+
+                labels[i] = new Label();
+                // Here you can modify the value of the label which is at labels[i]
+                labels[i].Visible = true;
+                labels[i].Text = i.ToString();
+                labels[i].BackColor = Color.Black;
+                labels[i].Location = new Point(200, 300);
+            }
+
+            // This adds the controls to the form (you will need to specify thier co-ordinates etc. first)
+            for (int i = 0; i < n; i++)
+            {
+                this.Controls.Add(textBoxes[i]);
+                this.Controls.Add(labels[i]);
+            }
         }
 
 
@@ -45,38 +91,15 @@ namespace lab3
 
         private void GenEvent(Object myObject, EventArgs myEventArgs)
         {
-            Car car = new Car(200, 300, rnd);
-            cars.Add(car);
+            //Car car = new Car(200, 300, rnd);
+            //cars.Add(car);
+
+
         }
 
         private void paint()
         {
-            Graphics g = canvas.CreateGraphics();
-            g.Clear(Color.White);
-            Brush road = new SolidBrush(Color.Gray);
-            g.FillRectangle(road, 0, 30, 1000, 60);
-            g.FillRectangle(road, 60, 90, 60, 640);
-            g.FillRectangle(road, 830, 90, 60, 640);
-
-            g.FillRectangle(road, 120, 150, 730, 60);
-            g.FillRectangle(road, 120, 280, 730, 60);
-            g.FillRectangle(road, 120, 410, 730, 60);
-            g.FillRectangle(road, 120, 540, 730, 60);
-            g.FillRectangle(road, 120, 670, 730, 60);
-
-
-            foreach (Car car in cars)
-            {
-                Brush c = new SolidBrush(Color.FromArgb(car.GetColor()[0], car.GetColor()[1], car.GetColor()[2]));
-                g.FillRectangle(c, car.GetPosition()[0], car.GetPosition()[1], 40, 20);
-
-                car.Update();
-            }
-        }
-
-        private void canvas_Paint(object sender, PaintEventArgs e)
-        {
-            paint();
+        
         }
 
     }

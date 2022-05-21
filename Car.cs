@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace lab3
 {
     enum states {MOVING, FUELING, WAITING = 2};
-    internal class Car
+    public class Car
     {
         private int fuelLevel;
         private int[] color = new int[3];
