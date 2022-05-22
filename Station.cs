@@ -28,6 +28,7 @@ namespace lab3
             this.position = position;
             this.id = id;
             this.increment = increment;
+            cars = new Queue<Car>();   
         }
 
         // проверка занята ли колонка
@@ -45,14 +46,18 @@ namespace lab3
             if (!this.isBusy()) cars.Enqueue(newCar);
         }
 
-        // заливаем топливо в машину
+        // заливаем топливо в машину СДЕЛАТЬ НОРМАЛЬНО
         public void addFuel() {
+            if (cars.Count == 0) return;
             Car car = cars.First();
             int addedFuel = increment <= 100 - car.GetFuelLevel() ? increment: 100 - car.GetFuelLevel();
-            car.AddFuel(addedFuel);
-            score += addedFuel;
-
-            if (car.GetFuelLevel() == 100) { 
+            if (car.isReadyToFuel())
+            {
+                car.AddFuel(addedFuel);
+                score += addedFuel;
+            }
+            if (car.GetFuelLevel() == 100)
+            {
                 //
                 cars.Dequeue();
             }
@@ -79,6 +84,11 @@ namespace lab3
             return cars.Count;
         }
 
+        public int GetPosition()
+        {
+            return position;
+        }
+
 
     }
 
@@ -93,13 +103,22 @@ namespace lab3
         }
         public Station GetStation() {
             List<Station> other =  stations.Where((element) => !element.isBusy()).ToList<Station>();
-            other.OrderBy(element => element.getInfo());
+            other = other.OrderBy(element => element.numberOfCars()).ToList<Station>();
+            
             if (other.Count() > 0)
             {
                 return other[0];
             }
             else {
                 return null;
+            }
+        }
+
+        public void Update()
+        {
+            foreach(Station station in stations)
+            {
+                station.update();
             }
         }
 

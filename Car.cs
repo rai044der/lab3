@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace lab3
 {
-    enum states {MOVING, FUELING, WAITING = 2};
+    enum states {MOVING, FUELING, WAITING};
     public class Car
     {
         private int fuelLevel;
@@ -17,32 +17,94 @@ namespace lab3
         private int state;
         private bool isGettingFuel;
         private bool onPosition;
+        private Station station;
+        private bool isRotated = false;
+        private bool isAlreadyFull = false;
+        private int step = 0;
 
-        public Car(int targetX, int targetY, Random rnd)
+        public Car(int targetX, int targetY, Random rnd, GasStation gasStation)
         {
             color[0] = rnd.Next(255);
             color[1] = rnd.Next(255);
             color[2] = rnd.Next(255);
+            fuelLevel = rnd.Next(5, 100);
             position[0] = 0; //TODO FIX POSITION TO CORRECT
             position[1] = 50;
-            targetPosition[0] = targetX;
-            targetPosition[1] = targetY;
+            if (fuelLevel > 75)
+            {
+                targetPosition[0] = 500;
+                targetPosition[1] = 50;
+                isAlreadyFull = true;
+            }
+            else
+            {
+                station = gasStation.GetStation();
+                if (station == null)
+                {
+                    isAlreadyFull = true;
+                    targetPosition[0] = 500;
+                    targetPosition[1] = 50;
+                }
+                else
+                {
+                    station.AddCar(this);
+                    targetPosition[0] = targetX;
+                    targetPosition[1] = targetY;
+                }
+            }
         }
 
         //TODO
-        void UpdatePosition()
+        bool UpdatePosition()
         {
-            if (!onPosition) return;
+            if (!onPosition) return false;
             else
             {
+                if(isAlreadyFull || fuelLevel == 100)
+                {
+                    return true;
+                }
+                if (step == 0)
+                {
+                    isRotated = !isRotated;
+                    targetPosition[1] = station.GetPosition();
+                    step++;
+                    onPosition = false;
+                }
+                else if(step == 1)
+                {
+                    isRotated = !isRotated;
+                    targetPosition[0] = 1140 - station.numberOfCars() * 70;
+                    step++;
+                    onPosition = false;
+                }
+                else if (step == 2)
+                {
+                    isGettingFuel = true;
+                    step++;
+                }
+                else if (step == 3 && isGettingFuel == false)
+                {
 
-                onPosition = false;
+                }
+                return false;
             }
+        }
+
+        public bool GetRotation()
+        {
+            return isRotated;
         }
 
         void Move()
         {
-            if(position[0] > targetPosition[0]){
+            if (position[0] == targetPosition[0] && position[1] == targetPosition[1])
+            {
+                onPosition = true;
+                state = (int)states.WAITING;
+                return;
+            }
+            if (position[0] > targetPosition[0]){
                 state = (int)states.MOVING;
                 position[0]--;
                 return;
@@ -61,19 +123,14 @@ namespace lab3
                 state = (int)states.MOVING;
                 position[1]++;
                 return;
-            }
-
-            if (position[0] == targetPosition[0] && position[1] == targetPosition[1])
-            {
-                onPosition = true;
-                state = (int)states.WAITING;
-            }
+            }            
         }
 
-        public void Update()
+        public bool Update()
         {
-            UpdatePosition();
+            bool isDel = UpdatePosition();
             Move();
+            return isDel;
         }
         //TODO
         public void SetStation()
@@ -100,6 +157,11 @@ namespace lab3
                 return true;
             }
             return false;
+        }
+
+        public bool isReadyToFuel()
+        {
+            return isGettingFuel;
         }
 
         public int GetFuelLevel()

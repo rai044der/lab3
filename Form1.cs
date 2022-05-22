@@ -17,8 +17,10 @@ namespace lab3
     {
         static System.Windows.Forms.Timer ticker = new System.Windows.Forms.Timer();
         static System.Windows.Forms.Timer gener = new System.Windows.Forms.Timer();
-        
 
+        List<int> idList;
+        List<int> posList;
+        GasStation gasStation;
         Dictionary<Car, Label> cars = new Dictionary<Car, Label>();
 
         Random rnd;
@@ -31,42 +33,66 @@ namespace lab3
         private void Form1_Load(object sender, EventArgs e)
 
         {
+            idList = new List<int>();
+            for (int i = 0; i < 5; i++) idList.Add(i);
+            posList = new List<int>(5);
+            posList.Add(190);
+            posList.Add(335);
+            posList.Add(495);
+            posList.Add(650);
+            posList.Add(790);
+            gasStation = new GasStation(5, 1, idList, posList, 14);
+
             rnd = rnd = new Random();
             gener.Tick += new EventHandler(GenEvent);
             gener.Interval = 2000;
             gener.Start();
 
             ticker.Tick += new EventHandler(TickerEvent);
-            ticker.Interval = 5;
+            ticker.Interval = 1;
             ticker.Start();
 
         }
 
         private void GenEvent(object sender, EventArgs e)
         {
-
-            Label mylab = new Label();
-            mylab.Text = "100";
-            mylab.Location = new Point(200, 300);
-            mylab.AutoSize = true;
-            mylab.Font = new Font("Calibri", 18);
-            mylab.ForeColor = Color.Green;
-            mylab.Padding = new Padding(6);
-
-            Car car = new Car(200, 300, rnd);
-            mylab.BackColor = Color.FromArgb(car.GetColor()[0], car.GetColor()[1], car.GetColor()[2]);
+            Car car = new Car(70, 50, rnd, gasStation);
+            Label mylab = new Label
+            {
+                Text = car.GetFuelLevel().ToString(),
+                Location = new Point(2000, 2000),
+                AutoSize = false,
+                Size = new Size(60, 40),
+                Font = new Font("Calibri", 13),
+                TextAlign = ContentAlignment.MiddleCenter,
+                ForeColor = Color.FromArgb(255 - car.GetColor()[0],
+                                             255 - car.GetColor()[1],
+                                             255 - car.GetColor()[2]),
+                Padding = new Padding(6),
+                BackColor = Color.FromArgb(car.GetColor()[0], car.GetColor()[1], car.GetColor()[2])
+            };
             cars.Add(car, mylab);
-
             // Adding this control to the form
             this.Controls.Add(mylab);
+            gener.Interval = rnd.Next(2000, 3500);
         }
 
         private void TickerEvent(object sender, EventArgs e) {
 
+            Car carToDel = null;
             foreach (Car car in cars.Keys) {
-                cars[car].Location = new Point(car.GetPosition()[0] + 1, car.GetPosition()[1] + 1);
-                car.Update();
+                cars[car].Location = new Point(car.GetPosition()[0], car.GetPosition()[1]);
+                cars[car].Size = car.GetRotation() ? new Size(40, 60) : new Size(60, 40);
+                cars[car].Text = car.GetFuelLevel().ToString();
+                bool isDel = car.Update();
+                if (isDel)
+                {
+                    this.Controls.Remove(cars[car]);
+                    carToDel = car;
+                }
             }
+            if(carToDel != null) cars.Remove(carToDel);
+            gasStation.Update();
         }
 
 
