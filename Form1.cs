@@ -65,7 +65,7 @@ namespace lab3
 
             foreach (Car car in cars.Keys) {
                 cars[car].Location = new Point(car.GetPosition()[0] + 1, car.GetPosition()[1] + 1);
-                car.position[0]++;
+                car.Update();
             }
         }
 
