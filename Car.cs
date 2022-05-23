@@ -54,7 +54,7 @@ namespace lab3
             }
         }
 
-        //TODO
+
         bool UpdatePosition()
         {
             if (!onPosition) return false;
@@ -160,7 +160,7 @@ namespace lab3
             Move();
             return isDel;
         }
-        //TODO
+
         public void SetStation()
         {
 
