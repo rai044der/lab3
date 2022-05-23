@@ -27,10 +27,10 @@ namespace lab3
             color[0] = rnd.Next(255);
             color[1] = rnd.Next(255);
             color[2] = rnd.Next(255);
-            fuelLevel = rnd.Next(5, 100);
+            fuelLevel = rnd.Next(5, 500);
             position[0] = 0; //TODO FIX POSITION TO CORRECT
             position[1] = 50;
-            if (fuelLevel > 75)
+            if (fuelLevel >= 400)
             {
                 targetPosition[0] = 1280;
                 targetPosition[1] = 50;
@@ -75,15 +75,21 @@ namespace lab3
                 else if (step == 1)
                 {
                     isRotated = !isRotated;
-                    targetPosition[0] = 1140 - station.numberOfCars() * 70;
+                    targetPosition[0] = 1040 - station.getCarNumber(this) * 70;
                     step++;
                     onPosition = false;
                 }
+
+                else if (step == 2 && this.GetPosition()[0] != 1040) { 
+                    targetPosition[0] = 1040 - station.getCarNumber(this) * 70;
+                }
+
                 else if (step == 2)
                 {
                     isGettingFuel = true;
                     step++;
                 }
+
                 else if (step == 3 && isGettingFuel == false)
                 {
                     targetPosition[0] = 1180;
@@ -173,7 +179,7 @@ namespace lab3
         public bool AddFuel(int fuel)
         {
             fuelLevel += fuel;
-            if(fuelLevel == 100)
+            if(fuelLevel == 500)
             {
                 isGettingFuel = false;
                 return true;

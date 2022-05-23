@@ -50,13 +50,13 @@ namespace lab3
         public void addFuel() {
             if (cars.Count == 0) return;
             Car car = cars.First();
-            int addedFuel = increment <= 100 - car.GetFuelLevel() ? increment: 100 - car.GetFuelLevel();
+            int addedFuel = increment <= 500 - car.GetFuelLevel() ? increment: 500 - car.GetFuelLevel();
             if (car.isReadyToFuel())
             {
                 car.AddFuel(addedFuel);
                 score += addedFuel;
             }
-            if (car.GetFuelLevel() == 100)
+            if (car.GetFuelLevel() == 500)
             {
                 cars.Dequeue();
                 foreach (Car currentCar in cars) { 
@@ -69,9 +69,13 @@ namespace lab3
         public int getInfo() {
             int result = 0;
             foreach (Car car in cars) {
-                result += 100 - car.GetFuelLevel();
+                result += 500 - car.GetFuelLevel();
             }
             return result;
+        }
+
+        public int getCarNumber(Car currentCar) {
+            return cars.ToList<Car>().IndexOf(currentCar); 
         }
 
         public void update() {
