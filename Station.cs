@@ -58,8 +58,10 @@ namespace lab3
             }
             if (car.GetFuelLevel() == 100)
             {
-                //
                 cars.Dequeue();
+                foreach (Car currentCar in cars) { 
+                    currentCar.Update();
+                }    
             }
         }
 

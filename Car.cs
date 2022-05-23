@@ -32,7 +32,7 @@ namespace lab3
             position[1] = 50;
             if (fuelLevel > 75)
             {
-                targetPosition[0] = 500;
+                targetPosition[0] = 1280;
                 targetPosition[1] = 50;
                 isAlreadyFull = true;
             }
@@ -42,7 +42,7 @@ namespace lab3
                 if (station == null)
                 {
                     isAlreadyFull = true;
-                    targetPosition[0] = 500;
+                    targetPosition[0] = 1280;
                     targetPosition[1] = 50;
                 }
                 else
@@ -60,10 +60,11 @@ namespace lab3
             if (!onPosition) return false;
             else
             {
-                if(isAlreadyFull || fuelLevel == 100)
+                if(isAlreadyFull)
                 {
                     return true;
                 }
+
                 if (step == 0)
                 {
                     isRotated = !isRotated;
@@ -71,7 +72,7 @@ namespace lab3
                     step++;
                     onPosition = false;
                 }
-                else if(step == 1)
+                else if (step == 1)
                 {
                     isRotated = !isRotated;
                     targetPosition[0] = 1140 - station.numberOfCars() * 70;
@@ -85,8 +86,29 @@ namespace lab3
                 }
                 else if (step == 3 && isGettingFuel == false)
                 {
+                    targetPosition[0] = 1180;
+                    step++;
+                    onPosition = false;
+                }
+
+                else if (step == 4)
+                {
+                    isRotated = !isRotated;
+                    targetPosition[1] = 50;
+                    step++;
+                    onPosition = false;
 
                 }
+
+                else if (step == 5)
+                {
+                    isRotated = !isRotated;
+                    targetPosition[0] = 1280;
+                    step++;
+                    onPosition = false;
+
+                }
+
                 return false;
             }
         }
