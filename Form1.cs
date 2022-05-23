@@ -63,18 +63,18 @@ namespace lab3
                 Location = new Point(2000, 2000),
                 AutoSize = false,
                 Size = new Size(60, 40),
-                Font = new Font("Calibri", 13),
+                Font = new Font("Calibri", 12),
                 TextAlign = ContentAlignment.MiddleCenter,
                 ForeColor = Color.FromArgb(255 - car.GetColor()[0],
                                              255 - car.GetColor()[1],
                                              255 - car.GetColor()[2]),
-                Padding = new Padding(6),
+                Padding = new Padding(3),
                 BackColor = Color.FromArgb(car.GetColor()[0], car.GetColor()[1], car.GetColor()[2])
             };
             cars.Add(car, mylab);
             // Adding this control to the form
             this.Controls.Add(mylab);
-            gener.Interval = rnd.Next(2000, 3500);
+            gener.Interval = rnd.Next(1500, 3000);
         }
 
         private void TickerEvent(object sender, EventArgs e) {
@@ -95,6 +95,9 @@ namespace lab3
             gasStation.Update();
         }
 
-
+        private void statBtn_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Всего продано " + gasStation.getGasSold().ToString() + " литра.");
+        }
     }
 }

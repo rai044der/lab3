@@ -29,7 +29,18 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            this.statBtn = new System.Windows.Forms.Button();
             this.SuspendLayout();
+            // 
+            // statBtn
+            // 
+            this.statBtn.Location = new System.Drawing.Point(1080, 867);
+            this.statBtn.Name = "statBtn";
+            this.statBtn.Size = new System.Drawing.Size(176, 35);
+            this.statBtn.TabIndex = 0;
+            this.statBtn.Text = "Статистика";
+            this.statBtn.UseVisualStyleBackColor = true;
+            this.statBtn.Click += new System.EventHandler(this.statBtn_Click);
             // 
             // Form1
             // 
@@ -37,7 +48,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.ClientSize = new System.Drawing.Size(1268, 858);
+            this.ClientSize = new System.Drawing.Size(1268, 914);
+            this.Controls.Add(this.statBtn);
             this.DoubleBuffered = true;
             this.Name = "Form1";
             this.Text = "Form1";
@@ -47,5 +59,7 @@
         }
 
         #endregion
+
+        private System.Windows.Forms.Button statBtn;
     }
 }
