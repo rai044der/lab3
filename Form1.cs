@@ -15,14 +15,14 @@ namespace lab3
 
     public partial class Form1 : Form
     {
-        static System.Windows.Forms.Timer ticker = new System.Windows.Forms.Timer();
+        static System.Windows.Forms.Timer ticker = new System.Windows.Forms.Timer();  // таймер тактирования симуляции
 
-        List<int> idList;
-        List<int> posList;
-        GasStation gasStation;
-        Dictionary<Car, Label> cars = new Dictionary<Car, Label>();
-        int generatorTick = 100;
-        int currentGeneratorTick = 0;
+        List<int> idList; // лист с номерами заправок
+        List<int> posList; // лист с координатами заправок
+        GasStation gasStation; // материнский объект запракви
+        Dictionary<Car, Label> cars = new Dictionary<Car, Label>(); // словарь машинок и соответсвующих им label
+        int generatorTick = 100; // время генератора машин
+        int currentGeneratorTick = 0; // таймер генератора машин 
 
         Random rnd;
 
@@ -31,6 +31,7 @@ namespace lab3
             InitializeComponent();
         }
 
+        // загрузка формочки
         private void Form1_Load(object sender, EventArgs e)
 
         {
@@ -54,6 +55,7 @@ namespace lab3
 
         }
 
+        // функция генератора машинки
         private void CarGenerator()
         {
             Car car = new Car(70, 50, rnd, gasStation);
@@ -81,6 +83,7 @@ namespace lab3
             }
         }
 
+        // событие тактовоо генератора
         private void TickerEvent(object sender, EventArgs e) {
             if (currentGeneratorTick > generatorTick)
             {
@@ -106,21 +109,25 @@ namespace lab3
 
         }
 
+        // кнопка статистики
         private void statBtn_Click(object sender, EventArgs e)
         {
             MessageBox.Show("Всего продано " + gasStation.getGasSold().ToString() + " литра.\n" + "Обслужено " + gasStation.getCarsFueled().ToString() + " машин.");
         }
 
+        // изменение скорости симуляции
         private void tickTrackBar_Scroll(object sender, EventArgs e)
         {
             ticker.Interval = tickTrackBar.Value;
         }
 
+        // изменение время генерации новой машинки
         private void carGeneratorTrackBar_Scroll(object sender, EventArgs e)
         {
             generatorTick = carGeneratorTrackBar.Value;
         }
 
+        // чекбокс генератора случайного времени для машинки
         private void randomCarGeneratorCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             if (randomCarGeneratorCheckBox.Checked)
@@ -133,6 +140,7 @@ namespace lab3
             }
         }
 
+        // изменение скорости заправки 
         private void fuelSpeedTrackBar_Scroll(object sender, EventArgs e)
         {
             gasStation.updateFuelRate(fuelSpeedTrackBar.Value);

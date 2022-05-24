@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 
 namespace lab3
 {
+    // класс колонки
     public class Station
     {
-        Queue<Car> cars;
-        int queueSize;
-        int position;
-        int id;
-        int score;
-        int carsFueled;
-        // сколько заливается топлива за такт
-        int increment;
+        Queue<Car> cars; // очередь из машин
+        int queueSize; // размер очереди
+        int position; // координаты колонки
+        int id; // номер колонки
+        int score; // количество проданных литров
+        int carsFueled; // количество заправленных машин
+        int increment; // сколько заливается топлива за такт
 
         public Station(int size, int position, int id, int increment) { 
             queueSize = size;
@@ -43,7 +43,7 @@ namespace lab3
             if (!this.isBusy()) cars.Enqueue(newCar);
         }
 
-        // заливаем топливо в машину СДЕЛАТЬ НОРМАЛЬНО
+        // заливаем топливо в машину
         public void addFuel() {
             if (cars.Count == 0) return;
             Car car = cars.First();
@@ -72,27 +72,33 @@ namespace lab3
             return result;
         }
 
+        // получение номера машины в очереди
         public int getCarNumber(Car currentCar) {
             return cars.ToList<Car>().IndexOf(currentCar); 
         }
 
+        // тактирование 
         public void update() {
             addFuel();
         }
 
+        // получение номер колонки
         public int getId() { 
             return id;
         }
 
+        // получение количества машин на колонке
         public int numberOfCars() {
             return cars.Count;
         }
 
+        // получение координат колонки
         public int GetPosition()
         {
             return position;
         }
 
+        // установка скорости заправки
         public void SetIncrement(int _increment)
         {
             increment = _increment;
@@ -122,6 +128,7 @@ namespace lab3
             }
         }
 
+        // тактирование
         public void Update()
         {
             foreach(Station station in stations)
@@ -130,15 +137,18 @@ namespace lab3
             }
         }
 
+        // получение количества проданного бензина за время
         public int getGasSold() {
             return stations.Sum(elem => elem.getStatistic()[0]);
         }
 
+        // получение количества заправленных машин за все время
         public int getCarsFueled()
         {
             return stations.Sum(elem => elem.getStatistic()[1]);
         }
 
+        // обновление скорости заправки на всех колонках
         public void updateFuelRate(int increment)
         {
             foreach (Station station in stations)

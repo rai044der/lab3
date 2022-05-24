@@ -6,21 +6,19 @@ using System.Threading.Tasks;
 
 namespace lab3
 {
-    enum states {MOVING, FUELING, WAITING};
+    // класс машинки
     public class Car
     {
-        private int fuelLevel;
-        private int[] color = new int[3];
-        public int[] position = new int[2];
-        private int[] targetPosition = new int[2];
-        private int gasStaton;
-        private int state;
-        private bool isGettingFuel;
-        private bool onPosition;
-        private Station station;
-        private bool isRotated = false;
-        private bool isAlreadyFull = false;
-        private int step = 0;
+        private int fuelLevel; // уровень топлива
+        private int[] color = new int[3]; // цвет 
+        public int[] position = new int[2]; // позиция
+        private int[] targetPosition = new int[2]; // целевая позиция
+        private bool isGettingFuel; // флаг заправки
+        private bool onPosition; // флаг достижения позиции
+        private Station station; // заправочная станция
+        private bool isRotated = false; // повернута ли машинка?
+        private bool isAlreadyFull = false; // флаг полного бака
+        private int step = 0; // шаг заправки
 
         public Car(int targetX, int targetY, Random rnd, GasStation gasStation)
         {
@@ -54,7 +52,7 @@ namespace lab3
             }
         }
 
-
+        //обновление целевой позиции машинки
         bool UpdatePosition()
         {
             if (!onPosition) return false;
@@ -118,64 +116,60 @@ namespace lab3
                 return false;
             }
         }
-
+        
+        // получение флага повернутости машинки
         public bool GetRotation()
         {
             return isRotated;
         }
 
+        // функция движения машинки
         void Move()
         {
             if (position[0] == targetPosition[0] && position[1] == targetPosition[1])
             {
                 onPosition = true;
-                state = (int)states.WAITING;
                 return;
             }
             if (position[0] > targetPosition[0]){
-                state = (int)states.MOVING;
                 position[0]--;
                 return;
             }
             else if (position[0] < targetPosition[0]){
-                state = (int)states.MOVING;
                 position[0]++;
                 return;
             }
             if (position[1] > targetPosition[1]) {
-                state = (int)states.MOVING;
                 position[1]--;
                 return;
             }
             else if (position[1] < targetPosition[1]){
-                state = (int)states.MOVING;
                 position[1]++;
                 return;
             }            
         }
-
+        
+        // тактирование
         public bool Update()
         {
             bool isDel = UpdatePosition();
             Move();
             return isDel;
         }
-
-        public void SetStation()
-        {
-
-        }
-
+        
+        // получение позиции машинки 
         public int[] GetPosition()
         {
             return position;
         }
 
+        // получение цвета
         public int[] GetColor()
         {
             return color;
         }
 
+        // заправка машинки
         public bool AddFuel(int fuel)
         {
             fuelLevel += fuel;
@@ -187,11 +181,13 @@ namespace lab3
             return false;
         }
 
+        // нужно ли заправиться?
         public bool isReadyToFuel()
         {
             return isGettingFuel;
         }
 
+        // получение уровня топлива
         public int GetFuelLevel()
         {
             return fuelLevel;
