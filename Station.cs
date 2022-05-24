@@ -6,13 +6,6 @@ using System.Threading.Tasks;
 
 namespace lab3
 {
-
-    //координаты тупого блять говна (заправок)
-    // 1: 1031, 194
-    // 2: 1031, 341
-    // 3: 1031, 500
-    // 4: 1031, 654
-    // 5: 1031, 800
     public class Station
     {
         Queue<Car> cars;
