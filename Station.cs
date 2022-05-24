@@ -20,6 +20,7 @@ namespace lab3
         int position;
         int id;
         int score;
+        int carsFueled;
         // сколько заливается топлива за такт
         int increment;
 
@@ -36,10 +37,13 @@ namespace lab3
             return cars.Count == queueSize;
         }
 
-        // сбор сколько литров разлила колонка
-        public int getStatistic()
+        // сбор сколько литров разлила колонка и сколько машин было обслужено
+        public int[] getStatistic()
         {
-            return score;
+            int[] stats = new int[2];
+            stats[0] = score;
+            stats[1] = carsFueled;
+            return stats;
         }
         // добавляем машину в очередь
         public void AddCar(Car newCar) { 
@@ -59,6 +63,7 @@ namespace lab3
             if (car.GetFuelLevel() == 500)
             {
                 cars.Dequeue();
+                carsFueled++;
                 foreach (Car currentCar in cars) { 
                     currentCar.Update();
                 }    
@@ -95,6 +100,10 @@ namespace lab3
             return position;
         }
 
+        public void SetIncrement(int _increment)
+        {
+            increment = _increment;
+        }
 
     }
 
@@ -129,10 +138,21 @@ namespace lab3
         }
 
         public int getGasSold() {
-            return stations.Sum(elem => elem.getStatistic());
+            return stations.Sum(elem => elem.getStatistic()[0]);
         }
 
-        
+        public int getCarsFueled()
+        {
+            return stations.Sum(elem => elem.getStatistic()[1]);
+        }
+
+        public void updateFuelRate(int increment)
+        {
+            foreach (Station station in stations)
+            {
+                station.SetIncrement(increment);
+            }
+        }
     }
 
 }

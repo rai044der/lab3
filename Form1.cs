@@ -16,12 +16,13 @@ namespace lab3
     public partial class Form1 : Form
     {
         static System.Windows.Forms.Timer ticker = new System.Windows.Forms.Timer();
-        static System.Windows.Forms.Timer gener = new System.Windows.Forms.Timer();
 
         List<int> idList;
         List<int> posList;
         GasStation gasStation;
         Dictionary<Car, Label> cars = new Dictionary<Car, Label>();
+        int generatorTick = 100;
+        int currentGeneratorTick = 0;
 
         Random rnd;
 
@@ -43,18 +44,17 @@ namespace lab3
             posList.Add(790);
             gasStation = new GasStation(5, 1, idList, posList, 14);
 
-            rnd = rnd = new Random();
-            gener.Tick += new EventHandler(GenEvent);
-            gener.Interval = 2000;
-            gener.Start();
+            rnd = new Random();
 
             ticker.Tick += new EventHandler(TickerEvent);
             ticker.Interval = 1;
             ticker.Start();
 
+            carGeneratorTrackBar.Value = generatorTick;
+
         }
 
-        private void GenEvent(object sender, EventArgs e)
+        private void CarGenerator()
         {
             Car car = new Car(70, 50, rnd, gasStation);
             Label mylab = new Label
@@ -74,11 +74,20 @@ namespace lab3
             cars.Add(car, mylab);
             // Adding this control to the form
             this.Controls.Add(mylab);
-            gener.Interval = rnd.Next(1500, 3000);
+            if (randomCarGeneratorCheckBox.Checked)
+            {
+                generatorTick = rnd.Next(carGeneratorTrackBar.Minimum, carGeneratorTrackBar.Maximum);
+                carGeneratorTrackBar.Value = generatorTick;
+            }
         }
 
         private void TickerEvent(object sender, EventArgs e) {
-
+            if (currentGeneratorTick > generatorTick)
+            {
+                CarGenerator();
+                currentGeneratorTick = 0;
+            }
+            else currentGeneratorTick++;
             Car carToDel = null;
             foreach (Car car in cars.Keys) {
                 cars[car].Location = new Point(car.GetPosition()[0], car.GetPosition()[1]);
@@ -93,11 +102,40 @@ namespace lab3
             }
             if(carToDel != null) cars.Remove(carToDel);
             gasStation.Update();
+            ticksRemainingLabel.Text = (generatorTick - currentGeneratorTick).ToString();
+
         }
 
         private void statBtn_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Всего продано " + gasStation.getGasSold().ToString() + " литра.");
+            MessageBox.Show("Всего продано " + gasStation.getGasSold().ToString() + " литра.\n" + "Обслужено " + gasStation.getCarsFueled().ToString() + " машин.");
+        }
+
+        private void tickTrackBar_Scroll(object sender, EventArgs e)
+        {
+            ticker.Interval = tickTrackBar.Value;
+        }
+
+        private void carGeneratorTrackBar_Scroll(object sender, EventArgs e)
+        {
+            generatorTick = carGeneratorTrackBar.Value;
+        }
+
+        private void randomCarGeneratorCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (randomCarGeneratorCheckBox.Checked)
+            {
+                carGeneratorTrackBar.Enabled = false;
+            }
+            else
+            {
+                carGeneratorTrackBar.Enabled = true;
+            }
+        }
+
+        private void fuelSpeedTrackBar_Scroll(object sender, EventArgs e)
+        {
+            gasStation.updateFuelRate(fuelSpeedTrackBar.Value);
         }
     }
 }
